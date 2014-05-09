@@ -61,7 +61,7 @@ var config = {
 * `bitcoind` - Bitcoin client connetion configs
 * `insight` - Insight connection configs
 * `port` - The port that Baron should run on
-* `baronAPIKey` - A secret key that is used to validate invoice creation. Can be generated using the`node generatetoken.js stringtohash`
+* `baronAPIKey` - A secret key that is used to validate invoice creation. Generate using `node generatetoken.js stringToHash`
 * `chainExplorerUrl` - A link to the tx route of a chain explorer
 * `updateWatchListInterval` - How often the watched payments job should run in ms
 * `lastBlockJobInterval` - How often the last block job should run in ms
