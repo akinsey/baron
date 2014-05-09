@@ -61,7 +61,7 @@ var config = {
 * `bitcoind` - Bitcoin client connetion configs
 * `insight` - Insight connection configs
 * `port` - The port that Baron should run on
-* `APIKey` - A secret key that is used to validate invoice creation
+* `baronAPIKey` - A secret key that is used to validate invoice creation. Can be generated using the`node generatetoken.js stringtohash`
 * `chainExplorerUrl` - A link to the tx route of a chain explorer
 * `updateWatchListInterval` - How often the watched payments job should run in ms
 * `lastBlockJobInterval` - How often the last block job should run in ms
@@ -99,7 +99,7 @@ Run Baron with [foreman](https://github.com/ddollar/foreman) and [nodemon](https
 $ foreman start -f Procfile-dev
 ```
 
-## Information
+## Additional Information
 
 ### Invoices
 
@@ -128,10 +128,11 @@ Invoices have the following properties:
 An example of a new Invoice object:
 ```js
 var newInvoice = {
+    "access_token" : "youshouldreallychangethis",
     "currency" : "BTC",
     "min_confirmations" : 3,
-    "balance_due" : 2.75,
-    "expiration" : 1395827470173,
+    "expiration" : 1395827470173, // Optional
+    "terms" : "http://somesite.com/terms" // Optional
     "line_items" : [
         {
             "description" : "Foo",
@@ -148,10 +149,12 @@ var newInvoice = {
 ```
 ### Creating an Invoice
 
-Invoices can be created by doing a **POST** of the newInvoice object to the following url:
+Invoices can be created by doing a **POST** of the newInvoice object to /invoices route. For example:
 ```sh
 http://localhost:8080/invoices
 ```
+
+***NOTE:*** The invoice's `access_token` property must match Baron's config for `baronAPIKey` to successfully create an invoice.
 
 ### Payments
 
