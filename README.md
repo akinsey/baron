@@ -57,17 +57,17 @@ var config = {
 };
 ```
 
-* ```couchdb``` - Database connection configs
-* ```bitcoind``` - Bitcoin client connetion configs
-* ```insight``` - Insight connection configs
-* ```port``` - The port that Baron should run on
-* ```APIKey``` - A secret key that is used to validate invoice creation
-* ```chainExplorerUrl``` - A link to the tx route of a chain explorer
-* ```updateWatchListInterval``` - How often the watched payments job should run in ms
-* ```lastBlockJobInterval``` - How often the last block job should run in ms
-* ```webhooksJobInterval``` - How often the webhooks job should run in ms
-* ```paymentValidForMinutes``` - How long before exchange rate refreshes for payment
-* ```trackPaymentUntilConf``` - How long to watch payments for before no longer updating
+* `couchdb` - Database connection configs
+* `bitcoind` - Bitcoin client connetion configs
+* `insight` - Insight connection configs
+* `port` - The port that Baron should run on
+* `APIKey` - A secret key that is used to validate invoice creation
+* `chainExplorerUrl` - A link to the tx route of a chain explorer
+* `updateWatchListInterval` - How often the watched payments job should run in ms
+* `lastBlockJobInterval` - How often the last block job should run in ms
+* `webhooksJobInterval` - How often the webhooks job should run in ms
+* `paymentValidForMinutes` - How long before exchange rate refreshes for payment
+* `trackPaymentUntilConf` - How long to watch payments for before no longer updating
 
 **NOTE:** You can manually override config properties using an [.env](http://ddollar.github.io/foreman/#ENVIRONMENT) file and [foreman](https://github.com/ddollar/foreman)
 
@@ -110,14 +110,14 @@ http://localhost:8080/invoices/305148c3f6b5c3944bbc92b8772b502f
 ### Invoice Data Model
 
 Invoices have the following properties:
-* ```currency``` - Can be either USD or BTC.
-* ```min_confirmations``` - Minimum confirmations before a payment is considered paid
-* ```balance_due``` - The total balance due for the invoice
-* ```expiration``` ***(optional)*** - Expiration time for invoice (unix timestamp)
-* ```line_items``` - Array storing line items
-  * ```description``` - Line item description text
-  * ```quantity``` - Quantity of the item purchased
-  * ```amount``` - The unit cost of the line item
+* `currency` - Can be either USD or BTC.
+* `min_confirmations` - Minimum confirmations before a payment is considered paid
+* `balance_due` - The total balance due for the invoice
+* `expiration` ***(optional)*** - Expiration time for invoice (unix timestamp)
+* `line_items` - Array storing line items
+  * `description` - Line item description text
+  * `quantity` - Quantity of the item purchased
+  * `amount` - The unit cost of the line item
 
 **NOTE:** Balance due and line item amounts are stored in whatever currency the invoice is set to. Expiration is an optional property that will make an invoice expire given unix timestamp.
 
