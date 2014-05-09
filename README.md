@@ -106,7 +106,7 @@ Invoices allow a person to receive payment for goods or services in BTC. The inv
 
 After an invoice is created, it can be viewed by going to the /invoices/:invoiceId route. For example:
 ```sh
-http://localhost:8080/invoices/305148c3f6b5c3944bbc92b8772b502f
+http://localhost:8080/invoices/8c945af08f257c1417f4c21992586d33
 ```
 
 ### Invoice Data Model
@@ -122,7 +122,7 @@ Invoices have the following properties:
   * `amount` - The unit cost of the line item <sup>[2]</sup>
 
 **NOTES:**
-* <sup>[1]</sup> The access token is not stored with the invoice, it is just used for Baron to verify that the invoice creator is trusted.
+* <sup>[1]</sup> The access token is not stored with the invoice, it is just used for Baron to verify that the invoice creator is trusted. This access token must match the `baronAPIKey` property in config.js.
 * <sup>[2]</sup> Line item amounts are stored in whatever currency the invoice is set to.
 
 An example of a new Invoice object:
@@ -154,18 +154,24 @@ Invoices can be created by doing a **POST** of the newInvoice object to /invoice
 http://localhost:8080/invoices
 ```
 
-
-***NOTE:*** The invoice's `access_token` property must match Baron's config for `baronAPIKey` to successfully create an invoice.
-
 ### Payments
 ![Payment Screenshot](http://i.imgur.com/ipEhRmg.png)
-Payments are created when an invoice is sent to another user and they click the 'Pay Now' button. This button takes the user to a view which has a payment address and QR Code to fufill the payment.
+Payments are created when the 'Pay Now' button on an invoice is clicked. User's are redirected to a view that displays the payment information such as amount due, address and QR Code for fulfillment of the invoice.
 
-When the user's payment reaches the invoice's minimum confirmations, the payment is considered to be in the 'paid' status and the invoice is considered paid in full.
+When a user's payment reaches the invoice's minimum confirmations, the payment is considered to be in the 'paid' status. Baron also handles other payment statuses:
+
+| Status   | Description                                                          |
+|----------|----------------------------------------------------------------------|
+| Paid     | When the received payment fully pays off an invoice                  |
+| Overpaid | When the received payment pays more than the invoice required        |
+| Parital  | When the received payment pays less than the invoice required        |
+| Unpaid   | Payments are unpaid when initially created                           |
+| Pending  | Payments are pending until they reach the invoices min confirmations |
+| Invalid  | Payments that have been reorged or double spent                      |
 
 Payments can be viewed by going to the /pay/:invoiceId route. For example:
 ```sh
-http://localhost:8080/pay/305148c3f6b5c3944bbc92b8772b502f
+http://localhost:8080/pay/8c945af08f257c1417f4c21992586d33
 ```
 
 ### Payment Data Model
