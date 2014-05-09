@@ -27,6 +27,8 @@ Change directories to baron and install dependencies:
 $ npm install
 ```
 ### Baron Configuration
+
+Configurations can be changed in the config.js file in the root of baron.
 ```js
 var config = {
   couchdb: {
@@ -67,13 +69,9 @@ var config = {
 * ```paymentValidForMinutes``` - How long before exchange rate refreshes for payment
 * ```trackPaymentUntilConf``` - How long to watch payments for before no longer updating
 
-Create a .env file and add bitcoind username and pass:
-```sh
-BITCOIND_USER=username
-BITCOIND_PASS=password
-```
+**NOTE:** You can manually override config properties using an [.env](http://ddollar.github.io/foreman/#ENVIRONMENT) file and [foreman](https://github.com/ddollar/foreman)
 
-## Bitcoin Configuration
+### Bitcoin Configuration
 Modify bitcoin's [bitcoin.conf](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File):
 ```sh
 # (optional) connects bitcoin client to testnet
@@ -82,7 +80,7 @@ testnet=1
 # allows json-rpc api calls from baron
 server=1
 
-# these should match your .env username and password
+# these should match your config or .env bitcoind username and password
 rpcuser=username
 rpcpassword=password
 ```
