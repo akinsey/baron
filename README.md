@@ -160,14 +160,14 @@ Payments are created when the 'Pay Now' button on an invoice is clicked. User's 
 
 When a user's payment reaches the invoice's minimum confirmations, the payment is considered to be in the 'paid' status. Baron also handles other payment statuses:
 
-| Status   | Description                                                          |
-|----------|----------------------------------------------------------------------|
-| Paid     | When the received payment fully pays off an invoice                  |
-| Overpaid | When the received payment pays more than the invoice required        |
-| Parital  | When the received payment pays less than the invoice required        |
-| Unpaid   | Payments are unpaid when initially created                           |
-| Pending  | Payments are pending until they reach the invoices min confirmations |
-| Invalid  | Payments that have been reorged or double spent                      |
+| Status       | Description                                                          |
+|--------------|----------------------------------------------------------------------|
+|***Paid***    | When the received payment fully pays off an invoice                  |
+|***Overpaid***| When the received payment pays more than the invoice required        |
+|***Parital*** | When the received payment pays less than the invoice required        |
+|***Unpaid***  | Payments are unpaid when initially created                           |
+|***Pending*** | Payments are pending until they reach the invoices min confirmations |
+|***Invalid*** | Payments that have been reorged or double spent                      |
 
 Payments can be viewed by going to the /pay/:invoiceId route. For example:
 ```sh
