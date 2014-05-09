@@ -119,7 +119,8 @@ Invoices have the following properties:
   * `quantity` - Quantity of the item purchased
   * `amount` - The unit cost of the line item <sup>[2]</sup>
 
-**NOTES:** <sup>[1]</sup> The access token is not stored with the invoice, it is just used for Baron to verify that the invoice creator is trusted. 
+**NOTES:** <sup>[1]</sup> The access token is not stored with the invoice, it is just used for Baron to verify that the invoice creator is trusted.
+
 <sup>[2]</sup> Line item amounts are stored in whatever currency the invoice is set to.
 
 An example of a new Invoice object:
