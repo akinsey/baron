@@ -106,6 +106,8 @@ After an invoice is created, it can be viewed by going to the /invoices/:invoice
 http://localhost:8080/invoices/305148c3f6b5c3944bbc92b8772b502f
 ```
 
+![Invoice Screenshot](http://i.imgur.com/qJw8RsW.png)
+
 ### Invoice Data Model
 Invoices have the following properties:
 * `access_token` - The API key for Baron to verify that invoice creator is trusted <sup>[1]</sup>
@@ -118,15 +120,16 @@ Invoices have the following properties:
   * `quantity` - Quantity of the item purchased
   * `amount` - The unit cost of the line item <sup>[2]</sup>
 
-**NOTES:** <sup>[1]</sup> The access token is not stored with the invoice, it is just used for Baron to verify that the invoice creator is trusted. <sup>[2]</sup> Line item amounts are stored in whatever currency the invoice is set to.
+**NOTES:** <sup>[1]</sup> The access token is not stored with the invoice, it is just used for Baron to verify that the invoice creator is trusted. 
+<sup>[2]</sup> Line item amounts are stored in whatever currency the invoice is set to.
 
 An example of a new Invoice object:
 ```js
 var newInvoice = {
-    "access_token" : "youshouldreallychangethis",
+    "access_token" : "268f84b93a69bbdf4c5f37dd67196eac75fdcda86dad301cc3fb4aed0670c2cb",
     "currency" : "BTC",
     "min_confirmations" : 3,
-    "expiration" : 1395827470173, // Optional
+    "expiration" : 1399997753000, // Optional
     "terms" : "http://somesite.com/terms" // Optional
     "line_items" : [
         {
@@ -148,6 +151,7 @@ Invoices can be created by doing a **POST** of the newInvoice object to /invoice
 ```sh
 http://localhost:8080/invoices
 ```
+
 
 ***NOTE:*** The invoice's `access_token` property must match Baron's config for `baronAPIKey` to successfully create an invoice.
 
