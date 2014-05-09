@@ -86,6 +86,9 @@ rpcpassword=password
 ```
 
 ### Running Baron
+
+First ensure that both insight-api and bitcoin are running and that their connection properties are correctly set in Baron's config.
+
 Run Baron
 ```sh
 $ node server.js
@@ -102,7 +105,7 @@ $ foreman start -f Procfile-dev
 
 Invoices allow a person to receive payment for goods or services in BTC. The invoice can be created in USD for a fixed price invoice or in BTC. USD invoices are converted to BTC at time of payment using the current exchange rate for BTC. 
 
-Invoices can be viewed by going to the /invoices/:invoiceId route. For example:
+After an invoice is created, it can be viewed by going to the /invoices/:invoiceId route. For example:
 ```sh
 http://localhost:8080/invoices/305148c3f6b5c3944bbc92b8772b502f
 ```
@@ -110,16 +113,17 @@ http://localhost:8080/invoices/305148c3f6b5c3944bbc92b8772b502f
 ### Invoice Data Model
 
 Invoices have the following properties:
+* `access_token` - The API key for Baron to verify that invoice creator is trusted. <sup>[1]</sup>
 * `currency` - Can be either USD or BTC.
 * `min_confirmations` - Minimum confirmations before a payment is considered paid
-* `balance_due` - The total balance due for the invoice
 * `expiration` ***(optional)*** - Expiration time for invoice (unix timestamp)
+* `terms` - ***(optional)*** A URL to a specific terms and conditions page for this invoice
 * `line_items` - Array storing line items
   * `description` - Line item description text
   * `quantity` - Quantity of the item purchased
-  * `amount` - The unit cost of the line item
+  * `amount` - The unit cost of the line item <sup>[2]</sup>
 
-**NOTE:** Balance due and line item amounts are stored in whatever currency the invoice is set to. Expiration is an optional property that will make an invoice expire given unix timestamp.
+**NOTES:** <sup>[1]</sup> The access token is not stored with the invoice, it is just used for Baron to verify that the invoice creator is trusted. <sup>[2]</sup> Line item amounts are stored in whatever currency the invoice is set to.
 
 An example of a new Invoice object:
 ```js
