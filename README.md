@@ -7,7 +7,95 @@ Baron is a bitcoin payment processor that makes it easy to manage bitcoin transa
 * Records BTC exchange rates when payments are made
 * Keeps a history of all invoices and payments
 
-## Information
+## External Dependencies
+
+* [node](http://nodejs.org)
+* [couchdb](http://wiki.apache.org/couchdb/Installation)
+* [bitcoin](https://bitcoin.org/en/download)
+* [insight-api](https://github.com/bitpay/insight-api)
+* [foreman](https://github.com/ddollar/foreman)
+* [nodemon](https://github.com/remy/nodemon)
+
+## Installation
+Clone the repository:
+```sh
+$ git clone https://github.com/slickage/baron.git
+```
+
+Change directories to baron and install dependencies:
+```sh
+$ npm install
+```
+### Baron Configuration
+```js
+var config = {
+  couchdb: {
+    url: process.env.DB_URL || 'http://localhost:5984',
+    name: process.env.DB_NAME || 'baron'
+  },
+  bitcoind:  {
+    host: process.env.BITCOIND_HOST || 'localhost',
+    port: process.env.BITCOIND_PORT || 18332,
+    user: process.env.BITCOIND_USER || 'username',
+    pass: process.env.BITCOIND_PASS || 'password'
+  },
+  insight: {
+    host: process.env.INSIGHT_HOST || 'localhost',
+    port: process.env.INSIGHT_PORT || '3001',
+    protocol: process.env.INSIGHT_PROTOCOL || 'http'
+  },
+  port: process.env.PORT || 8080,
+  baronAPIKey: process.env.BARON_API_KEY || 'youshouldreallychangethis',
+  chainExplorerUrl: process.env.CHAIN_EXPLORER_URL || 'http://tbtc.blockr.io/tx/info',
+  updateWatchListInterval: process.env.UPDATE_WATCH_LIST_INTERVAL || 15000,
+  lastBlockJobInterval: process.env.LAST_BLOCK_JOB_INTERVAL || 15000,
+  webhooksJobInterval: process.env.WEBHOOKS_JOB_INTERVAL || 15000,
+  paymentValidForMinutes: process.env.PAYMENT_VALID_FOR_MINUTES || 5,
+  trackPaymentUntilConf: process.env.TRACK_PAYMENT_UNTIL_CONF || 100
+};
+```
+
+* ```couchdb``` - Database connection configs
+* ```bitcoind``` - Bitcoin client connetion configs
+* ```insight``` - Insight connection configs
+* ```port``` - The port that baron should run on
+* ```baronAPIKey``` - A secret key that is used to validate invoice creation
+* ```chainExplorerUrl``` - A link to the tx route of a chain explorer
+* ```updateWatchListInterval``` - How often the watched payments job should run in ms
+* ```lastBlockJobInterval``` - How often the last block job should run in ms
+* ```webhooksJobInterval``` - How often the webhooks job should run in ms
+* ```paymentValidForMinutes``` - How long before exchange rate refreshes for payment
+* ```trackPaymentUntilConf``` - How long to watch payments for before no longer updating
+
+Create a .env file and add bitcoind username and pass:
+```sh
+BITCOIND_USER=username
+BITCOIND_PASS=password
+```
+
+## Bitcoin Configuration
+Modify bitcoin's [bitcoin.conf](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File):
+```sh
+# (optional) connects bitcoin client to testnet
+testnet=1
+
+# allows json-rpc api calls from baron
+server=1
+
+# these should match your .env username and password
+rpcuser=username
+rpcpassword=password
+```
+
+Run baron
+```sh
+$ node server.js
+```
+
+Run baron with [foreman](https://github.com/ddollar/foreman) and [nodemon](https://github.com/remy/nodemon)
+```sh
+$ foreman start -f Procfile-dev
+```
 
 ### Invoices
 
@@ -114,88 +202,3 @@ Payments have the following properties:
 * ```paid_timestamp``` - Time that payment became 'paid' status
 
 **NOTE:** Payments are created and handled internally.
-
-## Requirements
-
-* [node](http://nodejs.org)
-* [couchdb](http://wiki.apache.org/couchdb/Installation)
-* [bitcoin](https://bitcoin.org/en/download)
-
-## Installation
-
-Clone the repository:
-```sh
-$ git clone https://github.com/slickage/baron.git
-```
-
-Change directories to baron and install dependencies:
-```sh
-$ npm install
-```
-
-Create 'baron' database in couchdb and then push views:
-```sh
-$ couchapp push couchapp.js http://localhost:5984/baron
-```
-
-Create a .env file and add bitcoin username and pass:
-```sh
-BITCOIND_USER=username
-BITCOIND_PASS=password
-```
-
-Modify bitcoin's bitcoin.conf:
-```sh
-discover=0 # for testing, not for production
-testnet=1 # for testing, not for production
-server=1 # allows json-rpc api calls
-
-# these should match your .env username and password
-rpcuser=username
-rpcpassword=password
-```
-
-Run baron
-```sh
-$ node server.js
-```
-
-Run baron with [foreman](https://github.com/ddollar/foreman) and [nodemon](https://github.com/remy/nodemon)
-```sh
-$ foreman start -f Procfile-dev
-```
-
-## Using Baron as a module
-
-Baron can be run standalone or as a module of an existing node app. If an application is already using couchdb, Baron can easily be added as a dependency. 
-
-Note: To use Baron as an extension of an existing application, that application must be using express with the ejs view engine.
-
-Add the following properties to the main application's config.js:
-```sh
-  port: process.env.PORT || 8080,
-  dbUrl: process.env.DB_URL || 'http://localhost:5984',
-  bitcoind:  {
-    host: process.env.BITCOIND_HOST || 'localhost',
-    port: Number(process.env.BITCOIND_PORT) || 18332,
-    user: process.env.BITCOIND_USER || 'username',
-    pass: process.env.BITCOIND_PASS || 'password'
-  }
-```
-
-Require Baron and initialize
-```js
-var express = require('express');
-var app = express();
-app.set('view engine', 'ejs');
-app.use(express.bodyParser());
-
-// Local config containing baron properties
-var config = require('./config.js');
-
-// Require baron and pass in your local config
-var baron = require('baron')(config);
-
-// Call baron init method and pass in your existing express app
-baron.init(app);
-```
