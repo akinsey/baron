@@ -89,12 +89,12 @@ rpcpassword=password
 
 First ensure that both insight-api and bitcoin are running and that their connection properties are correctly set in Baron's config.
 
-Run Baron
+Running Baron with [node](http://nodejs.org)
 ```sh
 $ node server.js
 ```
 
-Run Baron with [foreman](https://github.com/ddollar/foreman) and [nodemon](https://github.com/remy/nodemon)
+Running Baron with [foreman](https://github.com/ddollar/foreman) and [nodemon](https://github.com/remy/nodemon)
 ```sh
 $ foreman start -f Procfile-dev
 ```
