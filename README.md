@@ -1,5 +1,4 @@
 # Baron [![Build Status](https://travis-ci.org/slickage/baron.svg)](https://travis-ci.org/slickage/baron)
-
 Baron is a bitcoin payment processor that makes it easy to manage bitcoin transactions. 
 
 * Allows for invoice creation in USD or BTC
@@ -8,7 +7,6 @@ Baron is a bitcoin payment processor that makes it easy to manage bitcoin transa
 * Keeps a history of all invoices and payments
 
 ## External Dependencies
-
 * [node](http://nodejs.org)
 * [couchdb](http://wiki.apache.org/couchdb/Installation)
 * [bitcoin](https://bitcoin.org/en/download)
@@ -26,8 +24,8 @@ Change directories to Baron and install dependencies:
 ```sh
 $ npm install
 ```
-### Baron Configuration
 
+### Baron Configuration
 Configurations can be changed in the config.js file in the root of Baron.
 ```js
 var config = {
@@ -86,7 +84,6 @@ rpcpassword=password
 ```
 
 ### Running Baron
-
 First ensure that both insight-api and bitcoin are running and that their connection properties are correctly set in Baron's config.
 
 Running Baron with [node](http://nodejs.org)
@@ -102,7 +99,6 @@ $ foreman start -f Procfile-dev
 ## Additional Information
 
 ### Invoices
-
 Invoices allow a person to receive payment for goods or services in BTC. The invoice can be created in USD for a fixed price invoice or in BTC. USD invoices are converted to BTC at time of payment using the current exchange rate for BTC. 
 
 After an invoice is created, it can be viewed by going to the /invoices/:invoiceId route. For example:
@@ -111,7 +107,6 @@ http://localhost:8080/invoices/305148c3f6b5c3944bbc92b8772b502f
 ```
 
 ### Invoice Data Model
-
 Invoices have the following properties:
 * `access_token` - The API key for Baron to verify that invoice creator is trusted <sup>[1]</sup>
 * `currency` - Currency of the invoice, can be either USD or BTC
@@ -147,8 +142,8 @@ var newInvoice = {
     ]
 };
 ```
-### Creating an Invoice
 
+### Creating an Invoice
 Invoices can be created by doing a **POST** of the newInvoice object to /invoices route. For example:
 ```sh
 http://localhost:8080/invoices
@@ -157,7 +152,6 @@ http://localhost:8080/invoices
 ***NOTE:*** The invoice's `access_token` property must match Baron's config for `baronAPIKey` to successfully create an invoice.
 
 ### Payments
-
 Payments are created when an invoice is sent to another user and they click the 'Pay Now' button. This button takes the user to a view which has a payment address and QR Code to fufill the payment.
 
 When the user's payment reaches the invoice's minimum confirmations, the payment is considered to be in the 'paid' status and the invoice is considered paid in full.
@@ -168,7 +162,6 @@ http://localhost:8080/pay/305148c3f6b5c3944bbc92b8772b502f
 ```
 
 ### Payment Data Model
-
 Payments have the following properties:
 * ```invoice_id``` - Invoice that this payment is associated with
 * ```address``` - Address to send BTC to
