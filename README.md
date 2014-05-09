@@ -116,6 +116,7 @@ Invoices have the following properties:
 * `min_confirmations` - Minimum confirmations before a payment is considered paid
 * `expiration` ***(optional)*** - Expiration time for invoice (unix timestamp)
 * `terms` - ***(optional)*** A URL to a specific terms and conditions page for this invoice
+* `webhooks` - ***(optional)*** An object containing event webhooks (See [Webhooks](#webhooks) section below)
 * `line_items` - Array storing line items
   * `description` - Line item description text
   * `quantity` - Quantity of the item purchased
@@ -132,7 +133,10 @@ var newInvoice = {
     "currency" : "BTC",
     "min_confirmations" : 3,
     "expiration" : 1399997753000, // Optional
-    "terms" : "http://somesite.com/terms" // Optional
+    "terms" : "http://somesite.com/terms", // Optional
+    "webhooks" : { // Optional
+      "paid": { "url": "http://somesite.com/notifypaid", "token": "268f84b93a69bbd" }
+    },
     "line_items" : [
         {
             "description" : "Foo",
@@ -176,14 +180,30 @@ http://localhost:8080/pay/8c945af08f257c1417f4c21992586d33
 
 ### Payment Data Model
 Payments have the following properties:
-* ```invoice_id``` - Invoice that this payment is associated with
-* ```address``` - Address to send BTC to
-* ```amount_paid``` - Stores the amount that was paid (Always stored in BTC)
-* ```spot_rate``` - Stores the exchange rate at the time of payment
-* ```status``` - The status of this payment (paid, unpaid, partial, overpaid, pending)
-* ```tx_id``` - Stores the transaction ID from bitcoind
-* ```ntx_id``` - Stores the normalized transaction ID from bitcoind
-* ```created``` - Time the payment was created
-* ```paid_timestamp``` - Time that payment became 'paid' status
+* `invoice_id` - Invoice that this payment is associated with
+* `address` - Address to send BTC to
+* `amount_paid` - Stores the amount that was paid (Always stored in BTC)
+* `expected_amount` - Stores the amount that the payment expects to receive
+* `block_hash` - Stores the blockhash that the transaction was confirmed into
+* `spot_rate` - Stores the exchange rate at the time of payment
+* `status` - The status of this payment (paid, unpaid, partial, overpaid, pending, invalid)
+* `tx_id` - Stores the transaction ID from bitcoind
+* `watched` - Indicates if the payment is actively being watched by Baron
+* `created` - Time the payment was created
+* `paid_timestamp` - Time that payment became 'paid' status
+* `reorg_history` - When applicable, contains the history of block hashes that the transaction was reorged out of
+* `double_spent_history` - When applicable, contains the history of transaction ID's that double spent this payment
 
-**NOTE:** Payments are created and handled internally.
+**NOTE:** This is just for reference, all payments are created and handled internally by Baron.
+
+### Advanced Payment Handling
+Baron is able to handle when a bitcoin transaction is reorged, double spent, or mutated. For example:
+![Invalid Payment Screenshot](http://i.imgur.com/YzszBcQ.png)
+
+Baron is also able to handle partial payments. When a payment only partially fulfills an invoice the user can click the 'Pay Now' button again, this will create a new payment with the remaining balance. If the user has script enabled the payment page will automatically refresh with an updated remaining balance and payment address. Alternatively user's can also send multiple payments to the same address. 
+
+This is an example of an invoice that was paid in full by two separate payments:
+![Partial Payment Screenshot](http://i.imgur.com/sKAsBFu.png)
+
+### Webhooks
+awdaw
