@@ -61,7 +61,7 @@ var config = {
 * `bitcoind` - Bitcoin client connetion configs
 * `insight` - Insight connection configs
 * `port` - The port that Baron should run on
-* `baronAPIKey` - A secret key that is used to validate invoice creation. Generate using `node generatetoken.js stringToHash`
+* `baronAPIKey` - A secret key that is used to validate invoice creation.
 * `chainExplorerUrl` - A link to the tx route of a chain explorer
 * `updateWatchListInterval` - How often the watched payments job should run in ms
 * `lastBlockJobInterval` - How often the last block job should run in ms
@@ -69,7 +69,7 @@ var config = {
 * `paymentValidForMinutes` - How long before exchange rate refreshes for payment
 * `trackPaymentUntilConf` - How long to watch payments for before no longer updating
 
-**NOTE:** You can manually override config properties using an [.env](http://ddollar.github.io/foreman/#ENVIRONMENT) file and [foreman](https://github.com/ddollar/foreman)
+**NOTES:** <sup>[1]</sup>The `baronAPIKey` can be generated using `node generatetoken.js stringToHash`. You can manually override config properties using an [.env](http://ddollar.github.io/foreman/#ENVIRONMENT) file and [foreman](https://github.com/ddollar/foreman).
 
 ### Bitcoin Configuration
 Modify bitcoin's [bitcoin.conf](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File):
