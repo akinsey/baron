@@ -99,14 +99,13 @@ $ foreman start -f Procfile-dev
 ## Additional Information
 
 ### Invoices
+![Invoice Screenshot](http://i.imgur.com/9tmBLZL.png)
 Invoices allow a person to receive payment for goods or services in BTC. The invoice can be created in USD for a fixed price invoice or in BTC. USD invoices are converted to BTC at time of payment using the current exchange rate for BTC. 
 
 After an invoice is created, it can be viewed by going to the /invoices/:invoiceId route. For example:
 ```sh
 http://localhost:8080/invoices/305148c3f6b5c3944bbc92b8772b502f
 ```
-
-![Invoice Screenshot](http://i.imgur.com/qJw8RsW.png)
 
 ### Invoice Data Model
 Invoices have the following properties:
@@ -156,6 +155,7 @@ http://localhost:8080/invoices
 ***NOTE:*** The invoice's `access_token` property must match Baron's config for `baronAPIKey` to successfully create an invoice.
 
 ### Payments
+![Payment Screenshot](http://i.imgur.com/ipEhRmg.png)
 Payments are created when an invoice is sent to another user and they click the 'Pay Now' button. This button takes the user to a view which has a payment address and QR Code to fufill the payment.
 
 When the user's payment reaches the invoice's minimum confirmations, the payment is considered to be in the 'paid' status and the invoice is considered paid in full.
