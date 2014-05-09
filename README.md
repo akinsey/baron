@@ -16,19 +16,19 @@ Baron is a bitcoin payment processor that makes it easy to manage bitcoin transa
 * [foreman](https://github.com/ddollar/foreman)
 * [nodemon](https://github.com/remy/nodemon)
 
-## Installation
+## Installation and Running
 Clone the repository:
 ```sh
 $ git clone https://github.com/slickage/baron.git
 ```
 
-Change directories to baron and install dependencies:
+Change directories to Baron and install dependencies:
 ```sh
 $ npm install
 ```
 ### Baron Configuration
 
-Configurations can be changed in the config.js file in the root of baron.
+Configurations can be changed in the config.js file in the root of Baron.
 ```js
 var config = {
   couchdb: {
@@ -60,8 +60,8 @@ var config = {
 * ```couchdb``` - Database connection configs
 * ```bitcoind``` - Bitcoin client connetion configs
 * ```insight``` - Insight connection configs
-* ```port``` - The port that baron should run on
-* ```baronAPIKey``` - A secret key that is used to validate invoice creation
+* ```port``` - The port that Baron should run on
+* ```APIKey``` - A secret key that is used to validate invoice creation
 * ```chainExplorerUrl``` - A link to the tx route of a chain explorer
 * ```updateWatchListInterval``` - How often the watched payments job should run in ms
 * ```lastBlockJobInterval``` - How often the last block job should run in ms
@@ -77,7 +77,7 @@ Modify bitcoin's [bitcoin.conf](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitco
 # (optional) connects bitcoin client to testnet
 testnet=1
 
-# allows json-rpc api calls from baron
+# allows json-rpc api calls from Baron
 server=1
 
 # these should match your config or .env bitcoind username and password
@@ -85,15 +85,18 @@ rpcuser=username
 rpcpassword=password
 ```
 
-Run baron
+### Running Baron
+Run Baron
 ```sh
 $ node server.js
 ```
 
-Run baron with [foreman](https://github.com/ddollar/foreman) and [nodemon](https://github.com/remy/nodemon)
+Run Baron with [foreman](https://github.com/ddollar/foreman) and [nodemon](https://github.com/remy/nodemon)
 ```sh
 $ foreman start -f Procfile-dev
 ```
+
+## Information
 
 ### Invoices
 
@@ -139,40 +142,11 @@ var newInvoice = {
     ]
 };
 ```
-### Creating/Retrieving an Invoice
+### Creating an Invoice
 
 Invoices can be created by doing a **POST** of the newInvoice object to the following url:
 ```sh
 http://localhost:8080/invoices
-```
-
-Alternatively, if Baron is being used as a module, invoices can be created internally using:
-
-```js
-baron.createInvoice(newInvoice, function(err, doc) {
-  if (err) {
-    res.write(err);
-    res.end();
-  }
-  else {
-    // Success
-  }
-});
-```
-
-Invoices with payments can be queried by invoiceId using:
-```js
-baron.findInvoiceAndPayments(invoiceId, function(err, invoice, paymentsArr) {
-  if (err) {
-    res.write(err);
-    res.end();
-  }
-  else {
-    // Success
-    console.log(invoice);
-    console.log(paymentsArr)
-  }
-});
 ```
 
 ### Payments
