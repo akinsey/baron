@@ -207,7 +207,26 @@ This is an example of an invoice that was paid in full by two separate payments:
 ![Partial Payment Screenshot](http://i.imgur.com/sKAsBFu.png)
 
 ### Webhooks
-Baron is capable of. 
+Baron is capable of doing a ***POST*** to a url when a payment event occurs. A payment event is when a payment goes from one status to anther. If a payment was to go from `unpaid` to `paid` status this would trigger the webhook stored in `newInvoice.webhooks.paid`. Here is a full list of supported webhooks:
+
+```js
+var newInvoice = {
+  //...
+  "webhooks": {
+    "paid": { "url": "http://somesite.com/notifypaid", "token": "93a69bbdf4c5f37dd6" }
+    "partial": { "url": "http://somesite.com/notifypartial", "token": "93a69bbdf4c5f37dd6" }
+    "invalid": { "url": "http://somesite.com/notifyinvalid", "token": "93a69bbdf4c5f37dd6" }
+    "pending": { "url": "http://somesite.com/notifypending", "token": "93a69bbdf4c5f37dd6" }
+  }
+  //...
+};
+```
+
+* `url` - The url Baron should ***POST*** to when the payment event occurs
+* `token` - A sha256 of a token that the invoice creating app is aware of
+
+## Webhook Tokens
+If webhooks are needed, the application creating the webhooks should create a secret that will be used for the token. The secret should be some message wrapped in a sha256 hash. It should then hash that token and pass it as as webhook's token properties. 
 
 ## License
 MIT
