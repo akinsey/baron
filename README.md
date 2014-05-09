@@ -116,15 +116,16 @@ Invoices have the following properties:
 * `min_confirmations` - Minimum confirmations before a payment is considered paid
 * `expiration` ***(optional)*** - Expiration time for invoice (unix timestamp)
 * `terms` - ***(optional)*** A URL to a specific terms and conditions page for this invoice
-* `webhooks` - ***(optional)*** An object containing event webhooks (See [Webhooks](#webhooks) section below)
+* `webhooks` - ***(optional)*** An object containing event webhooks <sup>[2]</sup>
 * `line_items` - Array storing line items
   * `description` - Line item description text
   * `quantity` - Quantity of the item purchased
-  * `amount` - The unit cost of the line item <sup>[2]</sup>
+  * `amount` - The unit cost of the line item <sup>[3]</sup>
 
 **NOTES:**
 * <sup>[1]</sup> The access token is not stored with the invoice, it is just used for Baron to verify that the invoice creator is trusted. This access token must match the `baronAPIKey` property in config.js.
-* <sup>[2]</sup> Line item amounts are stored in whatever currency the invoice is set to.
+* <sup>[2]</sup> See the [Webhooks](#webhooks) section below for a more detailed description
+* <sup>[3]</sup> Line item amounts are stored in whatever currency the invoice is set to.
 
 An example of a new Invoice object:
 ```js
@@ -206,4 +207,7 @@ This is an example of an invoice that was paid in full by two separate payments:
 ![Partial Payment Screenshot](http://i.imgur.com/sKAsBFu.png)
 
 ### Webhooks
-awdaw
+Baron is capable of. 
+
+## License
+MIT
